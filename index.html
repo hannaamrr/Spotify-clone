@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify - Login</title>
+    <!--========== CSS File ==========-->
+    <link rel="stylesheet" href="style.css">
+
+    <!--========== Favicon ==========-->
+    <link rel="shortcut icon" href="/assets/Images/favicon.ico" type="image/x-icon">
+
+    <!--========== Remixicon ==========-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css" integrity="sha512-OQDNdI5rpnZ0BRhhJc+btbbtnxaj+LdQFeh0V9/igiEPDiWE2fG+ZsXl0JEH+bjXKPJ3zcXqNyP4/F/NegVdZg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!--==========Spotify font==========-->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <!--========== Header ==========-->
+    <header class="spotify-header">
+        <!--===== Nav =====-->
+        <nav class="spotify-nav">
+            <i class="ri-spotify-fill logo"></i>
+            <span class="head-txt">Spotify</span>
+        </nav>
+    </header>
+
+    <!--========== Main Content ==========-->
+    <main class="main-content">
+        <!--===== Login Container =====-->
+        <div class="login-container">
+            <div class="login-head">
+                <h1>Log in to Spotify</h1>
+            </div>
+
+            <div class="login-options">
+                <div class="google">
+                    <img src="/assets/Images/google.webp" alt="google">
+                    <h4>Continue with Google</h4>
+                </div>
+
+                <div class="facebook">
+                    <img src="/assets/Images/facebook.svg" alt="facebook">
+                    <h4>Continue with Facebook</h4>
+                </div>
+
+                <div class="apple">
+                    <img src="/assets/Images/apple.png" alt="apple">
+                    <h4>Continue with Apple</h4>
+                </div>
+
+                <div class="mobile">
+                    <h4>Continue with phone number</h4 >
+                </div>
+            </div>
+
+            <div class="login-content">
+                <!-- Replace your form section and script with this -->
+
+<form id="login-form" class="login-content">
+    <div class="email-input-box">
+      <label for="email" class="email-label">Email or username</label>
+      <input type="email" id="email" class="email-input" placeholder="Email or username" required>
+    </div>
+  
+    <div class="password-input-box">
+      <label for="password" class="password-label">Password</label>
+      <div class="pass-div">
+        <input type="password" id="password" class="password-input" placeholder="Password" required>
+        <i class="ri-eye-off-line pass-toggle"></i>
+      </div>
+    </div>
+  
+    <div class="remember">
+      <input type="checkbox" class="rem-check" checked>
+      <span class="rem-txt">Remember me</span>
+    </div>
+  
+    <div class="login-button">
+      <button type="submit" class="login-btn">Log In</button>
+    </div>
+  
+    <div class="forgot">
+      <a href="#" class="forgot-txt">Forgot your password?</a>
+    </div>
+  </form>
+  
+  <!-- Spotify-style popup message -->
+  <div id="spotify-popup" style="display:none;position:fixed;top:32px;left:50%;transform:translateX(-50%);background:#282828;color:#fff;padding:16px 32px;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.3);font-family:'Montserrat',sans-serif;font-size:1rem;z-index:9999;min-width:260px;text-align:center;">
+    <span id="popup-message"></span>
+    <button id="popup-close" style="background:none;border:none;color:#1db954;font-weight:bold;font-size:1.1rem;margin-left:16px;cursor:pointer;">Close</button>
+  </div>
+  <script>
+    const storedUser = {
+      email: "user@gmail.com",
+      password: "123456"
+    };
+
+    // Show/hide password functionality
+    const passwordInput = document.getElementById("password");
+    const passToggle = document.querySelector(".pass-toggle");
+    passToggle.addEventListener("click", function () {
+      if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        passToggle.classList.remove("ri-eye-off-line");
+        passToggle.classList.add("ri-eye-line");
+      } else {
+        passwordInput.type = "password";
+        passToggle.classList.remove("ri-eye-line");
+        passToggle.classList.add("ri-eye-off-line");
+      }
+    });
+
+    // Spotify-style popup logic
+    function showSpotifyPopup(message) {
+      const popup = document.getElementById('spotify-popup');
+      const popupMsg = document.getElementById('popup-message');
+      popupMsg.textContent = message;
+      popup.style.display = 'block';
+      // Auto-hide after 3 seconds
+      const timeout = setTimeout(() => { popup.style.display = 'none'; }, 3000);
+      // Close button
+      document.getElementById('popup-close').onclick = function() {
+        popup.style.display = 'none';
+        clearTimeout(timeout);
+      };
+    }
+
+    document.getElementById("login-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const inputEmail = document.getElementById("email").value;
+      const inputPassword = document.getElementById("password").value;
+      if (inputEmail === storedUser.email && inputPassword === storedUser.password) {
+        window.location.href = "main.html"; // redirect to main page
+      } else {
+        showSpotifyPopup("Spotify says: Invalid email or password.");
+      }
+    });
+  </script>
+  
+        </div>
+    </main>
+
+    <!--========== Footer ==========-->
+    <footer class="footer">
+        <span class="footer-txt">This site is protected by reCAPTCHA and the Google <a href="#">Privacy Policy</a> and <a href="#">Terms of Service</a> apply.</span>
+    </footer>      
+</body>
+</html>
