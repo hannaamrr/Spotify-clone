@@ -3,3 +3,8 @@ const storedUser = {
   password: "123456"
 };
 
+
+window.addEventListener('load', () => {
+  updateLikedSongsSidebar();
+});
+
