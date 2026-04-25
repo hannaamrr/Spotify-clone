@@ -9,13 +9,19 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css">
   <style>
     * { box-sizing: border-box; }
+    html {
+      height: 100%;
+      overflow: hidden;
+    }
     body {
       margin: 0;
       font-family: 'Montserrat', sans-serif;
       background: #121212;
       color: white;
       display: flex;
-      height: 100vh;
+      height: 100%;
+      min-height: 0;
+      overflow: hidden;
     }
     .sidebar, .library-sidebar {
       width: 280px;
@@ -23,6 +29,8 @@
       padding: 20px;
       display: flex;
       flex-direction: column;
+      min-height: 0;
+      overflow: hidden;
     }
     .sidebar h2 {
       color: #1db954;
@@ -39,11 +47,15 @@
     }
     .sidebar a:hover { color: white; }
     .main-content {
-      flex-grow: 1;
+      flex: 1;
+      min-height: 0;
       background: #121212;
       display: flex;
       flex-direction: column;
       overflow-y: auto;
+      overflow-x: hidden;
+    }
+    .main-content.has-player {
       padding-bottom: 100px;
     }
     .topbar {
@@ -104,12 +116,23 @@
       align-items: center;
       position: fixed;
       bottom: 0;
+      left: 0;
+      right: 0;
       width: 100%;
       box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
       border-top: 1px solid #282828;
       z-index: 10;
       justify-content: space-between;
       gap: 24px;
+      transform: translateY(100%);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+    .music-player.is-active {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
     }
     .player-left {
       display: flex;
@@ -377,6 +400,9 @@
     .library-list {
       display: flex;
       flex-direction: column;
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
     }
     .library-item {
       display: flex;
@@ -747,6 +773,170 @@
       margin-left: auto;
       padding-left: 12px;
     }
+    .made-for-you-panel {
+      width: 820px;
+      max-width: 95vw;
+      height: 85vh;
+      max-height: 85vh;
+      background: #121212;
+    }
+    .made-for-you-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      border-bottom: 1px solid #282828;
+      background: linear-gradient(180deg, rgba(40,40,40,1) 0%, rgba(18,18,18,1) 70%);
+    }
+    .made-for-you-header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      min-width: 0;
+    }
+    .made-for-you-cover {
+      width: 72px;
+      height: 72px;
+      border-radius: 8px;
+      object-fit: cover;
+      box-shadow: 0 6px 18px rgba(0,0,0,.35);
+      flex-shrink: 0;
+      background: #181818;
+    }
+    .made-for-you-header-text {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+    }
+    .made-for-you-kicker {
+      font-size: 12px;
+      color: #b3b3b3;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .made-for-you-title {
+      margin: 0;
+      font-size: 26px;
+      font-weight: 800;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .made-for-you-sub {
+      font-size: 13px;
+      color: #b3b3b3;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .made-for-you-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #121212;
+    }
+    .made-for-you-panel .liked-songs-list {
+      padding-top: 8px;
+    }
+    .best-artist-panel {
+      width: 820px;
+      max-width: 95vw;
+      height: 85vh;
+      max-height: 85vh;
+      background: #121212;
+    }
+    .best-artist-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      border-bottom: 1px solid #282828;
+      background: linear-gradient(180deg, rgba(40,40,40,1) 0%, rgba(18,18,18,1) 70%);
+    }
+    .best-artist-header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      min-width: 0;
+    }
+    .best-artist-cover {
+      width: 72px;
+      height: 72px;
+      border-radius: 8px;
+      object-fit: cover;
+      box-shadow: 0 6px 18px rgba(0,0,0,.35);
+      flex-shrink: 0;
+      background: #181818;
+    }
+    .best-artist-header-text {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+    }
+    .best-artist-kicker {
+      font-size: 12px;
+      color: #b3b3b3;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .best-artist-title {
+      margin: 0;
+      font-size: 26px;
+      font-weight: 800;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .best-artist-sub {
+      font-size: 13px;
+      color: #b3b3b3;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .best-artist-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #121212;
+    }
+    .best-artist-panel .liked-songs-list {
+      padding-top: 8px;
+    }
+    @media (max-width: 768px) {
+      .made-for-you-panel {
+        width: 95vw;
+        height: 90vh;
+        max-height: 90vh;
+      }
+      .made-for-you-cover {
+        width: 56px;
+        height: 56px;
+      }
+      .made-for-you-title {
+        font-size: 20px;
+      }
+      .best-artist-panel {
+        width: 95vw;
+        height: 90vh;
+        max-height: 90vh;
+      }
+      .best-artist-cover {
+        width: 56px;
+        height: 56px;
+      }
+      .best-artist-title {
+        font-size: 20px;
+      }
+    }
     .modal {
       position: fixed;
       top: 0;
@@ -1045,27 +1235,27 @@
     <div class="section">
       <h2 class="section-title">Made For You</h2>
       <div class="playlists">
-        <div class="card">
+        <div class="card made-for-you-album" data-album="Discover Weekly">
           <img src="/assets/Images/discover weekly.jpeg" alt="Playlist cover">
           <h3>Discover Weekly</h3>
           <p>Your weekly mixtape of fresh music</p>
         </div>
-        <div class="card">
+        <div class="card made-for-you-album" data-album="Daily Mix 1">
           <img src="/assets/Images/daily mix 1.jpeg" alt="Playlist cover">
           <h3>Daily Mix 1</h3>
           <p>Made for you based on your listening habits</p>
         </div>
-        <div class="card">
+        <div class="card made-for-you-album" data-album="Daily Mix 2">
           <img src="/assets/Images/daily mix 2.jpeg" alt="Playlist cover">
           <h3>Daily Mix 2</h3>
           <p>Made for you based on your listening habits</p>
         </div>
-        <div class="card">
+        <div class="card made-for-you-album" data-album="Daily Mix 3">
           <img src="/assets/Images/daily mix 3.jpeg" alt="Playlist cover">
           <h3>Daily Mix 3</h3>
           <p>Made for you based on your listening habits</p>
         </div>
-        <div class="card">
+        <div class="card made-for-you-album" data-album="Daily Mix 4">
           <img src="/assets/Images/daily mix 4.jpeg" alt="Playlist cover">
           <h3>Daily Mix 4</h3>
           <p>Made for you based on your listening habits</p>
@@ -1076,29 +1266,29 @@
     <div class="section">
       <h2 class="section-title">Best of Artists</h2>
       <div class="playlists">
-        <div class="card">
+        <div class="card best-artist-card" data-artist="Amr Diab">
           <img src="/assets/Images/this is amr diab.jpeg" alt="Artist cover">
           <h3>Amr Diab</h3>
           <p>Artist</p>
         </div>
-        <div class="card">
-          <img src="/assets/Images/this is adele.jpeg" alt="Artist cover">
-          <h3>Adele</h3>
+        <div class="card best-artist-card" data-artist="lana del rey">
+          <img src="/assets/Images/this is lana del rey.webp" alt="Artist cover">
+          <h3>Lana Del Rey</h3>
           <p>Artist</p>
         </div>
-        <div class="card">
+        <div class="card best-artist-card" data-artist="Cairokee">
           <img src="/assets/Images/this is cairokee.jpeg" alt="Artist cover">
           <h3>Cairokee</h3>
           <p>Artist</p>
         </div>
-        <div class="card">
-          <img src="/assets/Images/this is eminem.jpeg" alt="Artist cover">
-          <h3>Eminem</h3>
+        <div class="card best-artist-card" data-artist="Tul8te">
+          <img src="/assets/Images/this is tul8te.jpg" alt="Artist cover">
+          <h3>Tul8te</h3>
           <p>Artist</p>
         </div>
-        <div class="card">
-          <img src="/assets/Images/this is tamer hosny.jpeg" alt="Artist cover">
-          <h3>Tamer Hosny</h3>
+        <div class="card best-artist-card" data-artist="Tamer Ashour">
+          <img src="/assets/Images/this is tamer ashour.webp" alt="Artist cover">
+          <h3>Tamer Ashour</h3>
           <p>Artist</p>
         </div>
       </div>
@@ -1201,6 +1391,48 @@
       </div>
     </div>
 
+    <div id="madeForYouOverlay" class="overlay made-for-you-overlay">
+      <div id="madeForYouPanel" class="panel made-for-you-panel">
+        <div class="made-for-you-header">
+          <div class="made-for-you-header-left">
+            <img id="madeForYouCover" class="made-for-you-cover" alt="Album cover">
+            <div class="made-for-you-header-text">
+              <div class="made-for-you-kicker">Made For You</div>
+              <h2 class="made-for-you-title" id="madeForYouTitle">Album</h2>
+              <div class="made-for-you-sub" id="madeForYouSub">Random songs just for you</div>
+            </div>
+          </div>
+          <button class="close-btn" id="closeMadeForYouBtn">
+            <i class="ri-close-line"></i>
+          </button>
+        </div>
+        <div class="made-for-you-content">
+          <div class="liked-songs-list" id="madeForYouSongsList"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="bestArtistOverlay" class="overlay best-artist-overlay">
+      <div id="bestArtistPanel" class="panel best-artist-panel">
+        <div class="best-artist-header">
+          <div class="best-artist-header-left">
+            <img id="bestArtistCover" class="best-artist-cover" alt="Artist cover">
+            <div class="best-artist-header-text">
+              <div class="best-artist-kicker">Best of Artists</div>
+              <h2 class="best-artist-title" id="bestArtistTitle">Artist</h2>
+              <div class="best-artist-sub" id="bestArtistSub">Top songs</div>
+            </div>
+          </div>
+          <button class="close-btn" id="closeBestArtistBtn">
+            <i class="ri-close-line"></i>
+          </button>
+        </div>
+        <div class="best-artist-content">
+          <div class="liked-songs-list" id="bestArtistSongsList"></div>
+        </div>
+      </div>
+    </div>
+
     <div id="createPlaylistModal" class="modal">
       <div class="modal-content">
         <h2>Create Playlist</h2>
@@ -1254,6 +1486,8 @@
     profile.addEventListener('click', () => openUserProfilePanel());
 
     // Audio player
+    const musicPlayerBar = document.querySelector('.music-player');
+    const mainContentEl = document.querySelector('.main-content');
     const audio = document.getElementById('audioPlayer');
     const playPauseBtn = document.getElementById('playPauseBtn');
     const playPauseIcon = document.getElementById('playPauseIcon');
@@ -1281,6 +1515,8 @@
       const cover = card.querySelector('img').src;
       const fileName = card.dataset.audio || `${artist} - ${title}.mp3`;
 
+      musicPlayerBar.classList.add('is-active');
+      mainContentEl.classList.add('has-player');
       showControls();
       playerTitle.textContent = title;
       playerArtist.textContent = artist;
@@ -1465,6 +1701,172 @@
     document.getElementById('closeLikedSongsBtn')?.addEventListener('click', closeLikedSongsPanel);
     likedSongsOverlay?.addEventListener('click', (e) => e.target === likedSongsOverlay && closeLikedSongsPanel());
 
+    // Made For You (album popup with random songs)
+    const madeForYouOverlay = document.getElementById('madeForYouOverlay');
+    const madeForYouSongsList = document.getElementById('madeForYouSongsList');
+    const madeForYouTitle = document.getElementById('madeForYouTitle');
+    const madeForYouCover = document.getElementById('madeForYouCover');
+    const madeForYouSub = document.getElementById('madeForYouSub');
+    const closeMadeForYouBtn = document.getElementById('closeMadeForYouBtn');
+
+    const albumTracksCache = new Map(); // albumName -> array of { title, artist, card }
+    let currentAlbumName = '';
+
+    const shuffleArray = (arr) => {
+      const copy = arr.slice();
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    };
+
+    const getRandomAlbumTracks = (count = 5) => {
+      const pool = Array.from(songs).map((card) => ({
+        title: card.querySelector('h3')?.textContent || 'Unknown',
+        artist: card.dataset.artist || 'Unknown',
+        card
+      }));
+      return shuffleArray(pool).slice(0, Math.min(count, pool.length));
+    };
+
+    const renderAlbumTracks = (tracks) => {
+      if (!madeForYouSongsList) return;
+      madeForYouSongsList.innerHTML = '';
+
+      if (!tracks?.length) {
+        madeForYouSongsList.innerHTML = `<div class="liked-songs-empty"><i class="ri-music-2-line liked-songs-empty-icon"></i><div class="liked-songs-empty-text">No songs found</div></div>`;
+        return;
+      }
+
+      tracks.forEach((t, i) => {
+        const item = document.createElement('div');
+        item.className = 'liked-song-item';
+        item.innerHTML = `<span class="liked-song-number">${i + 1}</span><div class="liked-song-info"><span class="liked-song-title">${t.title}</span><span class="liked-song-artist">${t.artist}</span></div>`;
+        item.addEventListener('click', () => {
+          const idx = Array.from(songs).indexOf(t.card);
+          if (idx > -1) playSong(currentSongIndex = idx);
+        });
+        madeForYouSongsList.appendChild(item);
+      });
+    };
+
+    const openMadeForYouAlbum = (albumCard) => {
+      if (!albumCard || !madeForYouOverlay) return;
+      const albumName = albumCard.dataset.album || albumCard.querySelector('h3')?.textContent || 'Made For You';
+      const cover = albumCard.querySelector('img')?.src || 'assets/Images/liked songs.jpeg';
+
+      currentAlbumName = albumName;
+      if (madeForYouTitle) madeForYouTitle.textContent = albumName;
+      if (madeForYouCover) madeForYouCover.src = cover;
+      if (madeForYouSub) madeForYouSub.textContent = 'A random mix from your library';
+
+      if (!albumTracksCache.has(albumName)) {
+        albumTracksCache.set(albumName, getRandomAlbumTracks(5));
+      }
+      renderAlbumTracks(albumTracksCache.get(albumName));
+      toggleOverlay(madeForYouOverlay, true);
+    };
+
+    const closeMadeForYouAlbum = () => toggleOverlay(madeForYouOverlay, false);
+
+    document.querySelectorAll('.made-for-you-album').forEach((card) => {
+      card.addEventListener('click', () => openMadeForYouAlbum(card));
+    });
+
+    closeMadeForYouBtn?.addEventListener('click', closeMadeForYouAlbum);
+    madeForYouOverlay?.addEventListener('click', (e) => e.target === madeForYouOverlay && closeMadeForYouAlbum());
+
+    // Best of Artists (artist popup with matching songs)
+    const bestArtistOverlay = document.getElementById('bestArtistOverlay');
+    const bestArtistSongsList = document.getElementById('bestArtistSongsList');
+    const bestArtistTitle = document.getElementById('bestArtistTitle');
+    const bestArtistCover = document.getElementById('bestArtistCover');
+    const bestArtistSub = document.getElementById('bestArtistSub');
+    const closeBestArtistBtn = document.getElementById('closeBestArtistBtn');
+
+    const normalizeName = (s) =>
+      (s || '')
+        .toString()
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+    const getArtistTracks = (artistName, count = 5) => {
+      const target = normalizeName(artistName);
+      const pool = Array.from(songs).map((card) => {
+        const songArtist = card.dataset.artist || '';
+        return {
+          title: card.querySelector('h3')?.textContent || 'Unknown',
+          artist: songArtist || artistName || 'Unknown',
+          artistNorm: normalizeName(songArtist),
+          card
+        };
+      });
+
+      // Prefer exact-ish matches, but allow partial matching so edited card names still work.
+      const matches = pool.filter((t) => {
+        if (!target) return false;
+        return t.artistNorm === target || t.artistNorm.includes(target) || target.includes(t.artistNorm);
+      });
+
+      return matches.slice(0, Math.min(count, matches.length));
+    };
+
+    const renderArtistTracks = (tracks, artistName) => {
+      if (!bestArtistSongsList) return;
+      bestArtistSongsList.innerHTML = '';
+
+      if (!tracks?.length) {
+        bestArtistSongsList.innerHTML =
+          `<div class="liked-songs-empty">
+            <i class="ri-music-2-line liked-songs-empty-icon"></i>
+            <div class="liked-songs-empty-text">No songs found for ${artistName || 'this artist'}</div>
+            <div style="font-size:14px;margin-top:8px;opacity:0.7;">Add playable songs with this artist name to see them here</div>
+          </div>`;
+        return;
+      }
+
+      tracks.forEach((t, i) => {
+        const item = document.createElement('div');
+        item.className = 'liked-song-item';
+        item.innerHTML = `<span class="liked-song-number">${i + 1}</span><div class="liked-song-info"><span class="liked-song-title">${t.title}</span><span class="liked-song-artist">${t.artist}</span></div>`;
+        item.addEventListener('click', () => {
+          const idx = Array.from(songs).indexOf(t.card);
+          if (idx > -1) playSong(currentSongIndex = idx);
+        });
+        bestArtistSongsList.appendChild(item);
+      });
+    };
+
+    const openBestArtist = (artistCard) => {
+      if (!artistCard || !bestArtistOverlay) return;
+      // Use the visible card title first, since you may edit/replace artists in HTML.
+      const artistName =
+        artistCard.querySelector('h3')?.textContent?.trim() ||
+        artistCard.dataset.artist ||
+        'Artist';
+      const cover = artistCard.querySelector('img')?.src || 'assets/Images/liked songs.jpeg';
+
+      if (bestArtistTitle) bestArtistTitle.textContent = artistName;
+      if (bestArtistCover) bestArtistCover.src = cover;
+      if (bestArtistSub) bestArtistSub.textContent = 'Top songs';
+
+      const tracks = getArtistTracks(artistName, 5);
+      renderArtistTracks(tracks, artistName);
+      toggleOverlay(bestArtistOverlay, true);
+    };
+
+    const closeBestArtist = () => toggleOverlay(bestArtistOverlay, false);
+
+    document.querySelectorAll('.best-artist-card').forEach((card) => {
+      card.addEventListener('click', () => openBestArtist(card));
+    });
+    closeBestArtistBtn?.addEventListener('click', closeBestArtist);
+    bestArtistOverlay?.addEventListener('click', (e) => e.target === bestArtistOverlay && closeBestArtist());
+
     // User profile
     const userProfileOverlay = document.getElementById('userProfileOverlay');
     const openUserProfilePanel = () => {
@@ -1615,6 +2017,8 @@
       if (e.key === 'Escape') {
         if (likedSongsOverlay?.classList.contains('active')) closeLikedSongsPanel();
         if (userProfileOverlay?.classList.contains('active')) closeUserProfilePanel();
+        if (madeForYouOverlay?.classList.contains('active')) closeMadeForYouAlbum();
+        if (bestArtistOverlay?.classList.contains('active')) closeBestArtist();
         if (modal?.classList.contains('active')) modal.classList.remove('active');
       }
     });

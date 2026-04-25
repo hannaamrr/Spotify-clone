@@ -36,32 +36,30 @@
             </div>
 
             <div class="login-options">
-                <div class="google">
-                    <img src="/assets/Images/google.webp" alt="google">
-                    <h4>Continue with Google</h4>
-                </div>
+                <button type="button" class="social-btn google" data-provider="Google" aria-label="Continue with Google">
+                    <img src="/assets/Images/google.webp" alt="">
+                    <span>Continue with Google</span>
+                </button>
 
-                <div class="facebook">
-                    <img src="/assets/Images/facebook.svg" alt="facebook">
-                    <h4>Continue with Facebook</h4>
-                </div>
+                <button type="button" class="social-btn facebook" data-provider="Facebook" aria-label="Continue with Facebook">
+                    <img src="/assets/Images/facebook.svg" alt="">
+                    <span>Continue with Facebook</span>
+                </button>
 
-                <div class="apple">
-                    <img src="/assets/Images/apple.png" alt="apple">
-                    <h4>Continue with Apple</h4>
-                </div>
+                <button type="button" class="social-btn apple" data-provider="Apple" aria-label="Continue with Apple">
+                    <img src="/assets/Images/apple.png" alt="">
+                    <span>Continue with Apple</span>
+                </button>
 
-                <div class="mobile">
-                    <h4>Continue with phone number</h4 >
-                </div>
+                <button type="button" class="social-btn mobile" data-provider="Phone" aria-label="Continue with phone number">
+                    <span>Continue with phone number</span>
+                </button>
             </div>
 
-            <div class="login-content">
-
-<form id="login-form" class="login-content">
+<form id="login-form" class="login-content" novalidate>
     <div class="email-input-box">
       <label for="email" class="email-label">Email or username</label>
-      <input type="email" id="email" class="email-input" placeholder="Email or username" required>
+      <input type="text" id="email" class="email-input" placeholder="Email or username" autocomplete="username" inputmode="email" required>
     </div>
   
     <div class="password-input-box">
@@ -82,9 +80,29 @@
     </div>
   
     <div class="forgot">
-      <a href="#" class="forgot-txt">Forgot your password?</a>
+      <a href="#" id="forgot-link" class="forgot-txt">Forgot your password?</a>
     </div>
   </form>
+
+  <!-- Reset password modal -->
+  <div id="reset-modal" class="modal" hidden aria-hidden="true">
+    <div class="modal-backdrop" data-close="true"></div>
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="reset-modal-title">
+      <button type="button" class="modal-close" aria-label="Close" data-close="true">&times;</button>
+      <h2 id="reset-modal-title" class="modal-title">Reset your password</h2>
+      <p class="modal-subtitle">Enter your email address or username, and we’ll send you a magic link to get back into your account.</p>
+
+      <div class="modal-field">
+        <label for="reset-email" class="email-label">Email address or username</label>
+        <input type="text" id="reset-email" class="email-input" placeholder="Email address or username" autocomplete="username" inputmode="email">
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" id="reset-send" class="login-btn">Send magic link</button>
+        <button type="button" id="reset-cancel" class="modal-cancel" data-close="true">Cancel</button>
+      </div>
+    </div>
+  </div>
   
   <!-- Spotify-style popup message -->
   <div id="spotify-popup" style="display:none;position:fixed;top:32px;left:50%;transform:translateX(-50%);background:#282828;color:#fff;padding:16px 32px;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.3);font-family:'Montserrat',sans-serif;font-size:1rem;z-index:9999;min-width:260px;text-align:center;">
@@ -136,6 +154,66 @@
       } else {
         showSpotifyPopup("Spotify says: Invalid email or password.");
       }
+    });
+
+    // Continue with buttons
+    document.querySelectorAll(".social-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const provider = btn.dataset.provider || "provider";
+        showSpotifyPopup(`Spotify says: Continuing with ${provider}...`);
+        setTimeout(() => {
+          window.location.href = "main.html";
+        }, 700);
+      });
+    });
+
+    // Forgot password modal
+    const forgotLink = document.getElementById("forgot-link");
+    const resetModal = document.getElementById("reset-modal");
+    const resetSend = document.getElementById("reset-send");
+    const resetCancel = document.getElementById("reset-cancel");
+    const resetEmail = document.getElementById("reset-email");
+    let lastFocusEl = null;
+
+    function openResetModal() {
+      lastFocusEl = document.activeElement;
+      resetModal.hidden = false;
+      resetModal.setAttribute("aria-hidden", "false");
+      resetEmail.value = document.getElementById("email").value || "";
+      resetEmail.focus();
+    }
+    function closeResetModal() {
+      resetModal.hidden = true;
+      resetModal.setAttribute("aria-hidden", "true");
+      if (lastFocusEl && typeof lastFocusEl.focus === "function") lastFocusEl.focus();
+    }
+
+    forgotLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      openResetModal();
+    });
+    resetCancel.addEventListener("click", closeResetModal);
+
+    // Close modal by clicking backdrop / close icons
+    resetModal.addEventListener("click", (e) => {
+      const el = e.target;
+      if (el && el.dataset && el.dataset.close === "true") closeResetModal();
+    });
+
+    // Close on ESC
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !resetModal.hidden) closeResetModal();
+    });
+
+    resetSend.addEventListener("click", () => {
+      const value = resetEmail.value.trim();
+      if (!value) {
+        showSpotifyPopup("Spotify says: Please enter your email address or username.");
+        resetEmail.focus();
+        return;
+      }
+      showSpotifyPopup("Spotify says: If this account exists, we sent a magic link.");
+      setTimeout(closeResetModal, 900);
     });
   </script>
   

@@ -87,12 +87,23 @@ img {
     padding: 2rem 0 3rem;
 }
 
+/* Social providers (now real buttons) */
+.social-btn,
 .google, .facebook, .apple, .mobile {
     display: flex;
     align-items: center;
     border: .5px solid #636363;
     border-radius: 4rem;
     cursor: pointer;
+    background: transparent;
+    color: #fff;
+    font: inherit;
+    text-align: left;
+}
+
+.social-btn:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 2px;
 }
 
 .google, .facebook, .apple {
@@ -103,7 +114,7 @@ img {
     justify-content: start;
 }
 
-.google h3, .facebook h3, .apple h3, .mobile h3 {
+.google span, .facebook span, .apple span, .mobile span {
     font-weight: 600;
 }
 
@@ -122,11 +133,11 @@ img {
     justify-content: center;
 }
 
-.login-options div {
+.login-options .social-btn {
     transition: border-color .4s;
 }
 
-.login-options div:hover {
+.login-options .social-btn:hover {
     border-color: #fff;
 }
 
@@ -257,6 +268,96 @@ img {
     font-weight: bold;
 }
 
+/* Reset password modal */
+.modal[hidden] { display: none; }
+
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+}
+
+.modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,.65);
+}
+
+.modal-dialog {
+    position: relative;
+    z-index: 9999;
+    width: min(520px, calc(100% - 2rem));
+    margin: 10vh auto 0;
+    background: #121212;
+    border: 1px solid #2d2d2d;
+    border-radius: .85rem;
+    padding: 1.25rem;
+    box-shadow: 0 12px 40px rgba(0,0,0,.6);
+}
+
+.modal-close {
+    position: absolute;
+    top: .75rem;
+    right: .75rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    color: #fff;
+    font-size: 1.75rem;
+    cursor: pointer;
+}
+
+.modal-close:hover {
+    background: #232323;
+}
+
+.modal-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    margin-bottom: .5rem;
+}
+
+.modal-subtitle {
+    color: #b3b3b3;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: 1rem;
+}
+
+.modal-field {
+    display: grid;
+    row-gap: .5rem;
+    margin-bottom: 1rem;
+}
+
+.modal-actions {
+    display: grid;
+    gap: .5rem;
+}
+
+.modal-cancel {
+    background: transparent;
+    border: 1px solid #636363;
+    color: #fff;
+    padding: .75rem 0;
+    border-radius: 5rem;
+    cursor: pointer;
+    font-weight: 700;
+    transition: border-color .25s;
+}
+
+.modal-cancel:hover {
+    border-color: #fff;
+}
+
+.modal-cancel:focus-visible,
+.modal-close:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 2px;
+}
+
 .signUp {
     width: 100%;
     display: flex;
@@ -323,7 +424,7 @@ img {
         width: 100%;
     }
 
-    .google h3, .facebook h3, .apple h3 {
+    .google span, .facebook span, .apple span {
         width: 75%;
         text-align: center;
     }
